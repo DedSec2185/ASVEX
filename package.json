@@ -1,0 +1,13 @@
+{
+  "name": "asvex-technologies",
+  "version": "5.0.0",
+  "description": "ASVEX Technologies — High-Performance Software Engineering & Autonomous AI Studio",
+  "private": true,
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node server/server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

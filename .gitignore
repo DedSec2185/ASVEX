@@ -1,0 +1,24 @@
+# Dependencies & Environment
+node_modules/
+.env
+.env.*
+.vercel/
+*.log
+
+# Private Internal Agency Operations & Client Files (DO NOT PUBLISH)
+templates/
+clients/
+finance/
+marketing/
+brand/
+docs/
+automation-templates/
+boilerplates/
+scripts/
+server/data/
+CHANGELOG.md
+
+# Legacy Drafts & OS Metadata
+website/asvex_website.html
+.DS_Store
+Thumbs.db

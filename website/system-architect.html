@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Interactive System Architect, Pipeline Simulator & Pricing — ASVEX Technologies</title>
+<meta name="description" content="Configure production software architectures, simulate real-world request pipelines, calculate compute/latency specs, and view transparent pricing ranges with ASVEX Technologies."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="stylesheet" href="assets/css/subpage-luxury.css"/>
+<style>
+.arch-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1.15fr;
+  gap: clamp(24px, 4vw, 40px);
+  align-items: start;
+}
+
+.arch-opt-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 22px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.arch-opt-card:hover {
+  border-color: rgba(0, 212, 255, 0.38);
+  background: rgba(16, 25, 42, 0.8);
+  transform: translateX(4px);
+}
+.arch-opt-card.selected {
+  border-color: var(--cyan);
+  background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 102, 255, 0.08));
+  box-shadow: 0 8px 28px rgba(0, 212, 255, 0.16);
+}
+
+.addon-card {
+  background: rgba(11, 17, 28, 0.55);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+.addon-card:hover {
+  border-color: rgba(0, 212, 255, 0.3);
+  transform: translateX(3px);
+}
+.addon-card.active {
+  border-color: rgba(0, 229, 160, 0.45);
+  background: rgba(0, 229, 160, 0.06);
+}
+.addon-checkbox {
+  width: 20px; height: 20px;
+  border-radius: 5px;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: transparent;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.addon-card.active .addon-checkbox {
+  border-color: var(--green);
+  background: rgba(0, 229, 160, 0.22);
+  color: var(--green);
+}
+
+.addon-price {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--green);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.canvas-panel {
+  background: #020408;
+  border: 1px solid rgba(0, 212, 255, 0.24);
+  border-radius: var(--radius-lg);
+  padding: clamp(20px, 3.5vw, 32px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(0, 212, 255, 0.03);
+  position: sticky;
+  top: 90px;
+}
+
+/* Range Sliders */
+.sim-slider-box {
+  background: rgba(11, 17, 28, 0.6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  margin-bottom: 12px;
+}
+.sim-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  outline: none;
+  margin-top: 10px;
+}
+.sim-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 14px var(--cyan);
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.sim-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Pipeline Stage Boxes */
+.pipe-stages {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.pipe-stage {
+  background: rgba(11, 17, 28, 0.75);
+  border: 1px solid var(--border-subtle);
+  border-radius: 6px;
+  padding: 10px 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+.pipe-stage.sim-active {
+  border-color: var(--cyan);
+  background: rgba(0, 212, 255, 0.14);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.28);
+  transform: translateY(-2px);
+}
+.pipe-stage.sim-done {
+  border-color: rgba(0, 229, 160, 0.45);
+  background: rgba(0, 229, 160, 0.07);
+}
+.pipe-stage-num {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--text-dark);
+  font-weight: 700;
+}
+.pipe-stage-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 3px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pipe-stage-ms {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+/* Telemetry Grid */
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.telemetry-card {
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+.telemetry-lbl {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.telemetry-val {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-top: 3px;
+}
+
+/* Animated Packet on SVG */
+@keyframes flowDash {
+  to { stroke-dashoffset: -24; }
+}
+.svg-flow-line {
+  stroke-dasharray: 6 6;
+  animation: flowDash 1s linear infinite;
+}
+
+@media (max-width: 980px) {
+  .arch-grid { grid-template-columns: 1fr; }
+  .canvas-panel { position: static; }
+}
+@media (max-width: 640px) {
+  .pipe-stages { grid-template-columns: 1fr 1fr; }
+  .telemetry-grid { grid-template-columns: 1fr; }
+  .arch-form-grid { grid-template-columns: 1fr !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav>
+  <a href="index.html" class="nav-brand" aria-label="ASVEX Technologies">
+    <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" class="nav-logo-img"/>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="case-studies.html" class="nav-link">Case Studies</a>
+    <a href="system-architect.html" class="nav-link nav-link-cyan active">⚡ System Architect</a>
+    <a href="engineering.html" class="nav-link">Engineering</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="nav-link desktop-only" style="color:#25D366;">WhatsApp Direct</a>
+    <a href="contact.html" class="nav-cta desktop-only">Start Project →</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MOBILE NAVIGATION DRAWER ══ -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+  <div class="drawer-header">
+    <a href="index.html" style="display:flex;align-items:center;">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:50px;width:auto;"/>
+    </a>
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+  </div>
+  <div class="drawer-nav">
+    <a href="index.html" class="drawer-link"><span class="drawer-num">[01]</span> Home</a>
+    <a href="services.html" class="drawer-link"><span class="drawer-num">[02]</span> Services &amp; Capabilities</a>
+    <a href="case-studies.html" class="drawer-link"><span class="drawer-num">[03]</span> Case Studies &amp; Proof</a>
+    <a href="system-architect.html" class="drawer-link drawer-cyan active"><span class="drawer-num">[04]</span> ⚡ System Architect</a>
+    <a href="engineering.html" class="drawer-link"><span class="drawer-num">[05]</span> Engineering Standards</a>
+    <a href="about.html" class="drawer-link"><span class="drawer-num">[06]</span> Founder &amp; Studio</a>
+    <a href="contact.html" class="drawer-link"><span class="drawer-num">[07]</span> Architecture Audit &amp; Contact</a>
+  </div>
+  <div class="drawer-footer">
+    <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;justify-content:center;">Book Architecture Audit →</a>
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="btn-wa" style="width:100%;text-align:center;justify-content:center;margin-top:10px;">WhatsApp Founder Direct</a>
+  </div>
+</aside>
+
+<!-- ══ HERO ══ -->
+<header class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>System Architect &amp; Pipeline Simulator</div>
+    <div class="page-eyebrow">LIVE PIPELINE SIMULATOR · REAL-WORLD CALCULATIONS · TRANSPARENT PRICING</div>
+    <h1 class="page-title">Interactive System Architect<br><em>Simulate Load, Pipeline &amp; Exact Cost.</em></h1>
+    <p class="page-desc">
+      Configure your target system archetype, simulate real-world concurrent request loads, inspect stage-by-stage millisecond latency, and calculate transparent project investments in <strong>INR (₹)</strong> or <strong>USD ($)</strong>.
+    </p>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<!-- ══ CONSOLE INTERACTION ══ -->
+<section class="sec-padded" style="background:var(--bg-subtle);">
+  <div class="container">
+    <div class="arch-grid">
+      
+      <!-- Left Column: Controls -->
+      <div>
+        <!-- Step 1: Select Archetype -->
+        <div style="margin-bottom:32px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+            <div style="font-family:var(--font-mono);font-size:13.5px;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;">
+              [01] Select System Archetype
+            </div>
+            <!-- Currency Toggle -->
+            <div style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.05);padding:4px;border-radius:6px;border:1px solid var(--border);">
+              <button onclick="setCurrency('INR')" id="btn-inr" style="background:var(--cyan);color:#030508;border:none;border-radius:4px;padding:4px 12px;font-family:var(--font-mono);font-size:13px;font-weight:700;cursor:pointer;">INR (₹)</button>
+              <button onclick="setCurrency('USD')" id="btn-usd" style="background:transparent;color:var(--text-muted);border:none;border-radius:4px;padding:4px 12px;font-family:var(--font-mono);font-size:13px;font-weight:700;cursor:pointer;">USD ($)</button>
+            </div>
+          </div>
+
+          <div class="arch-opt-card selected" onclick="selectArchetype('ai_rag', this)">
+            <div>
+              <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-main);">Enterprise AI &amp; Production RAG</div>
+              <div style="font-size:14.5px;color:var(--text-muted);margin-top:3px;">FAISS dense vector search, QLoRA 4-bit fine-tuned models, anti-hallucination.</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:13px;color:var(--cyan);font-weight:700;">ACTIVE</div>
+          </div>
+
+          <div class="arch-opt-card" onclick="selectArchetype('fullstack_saas', this)">
+            <div>
+              <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-main);">Full-Stack Custom Web Platform / SaaS</div>
+              <div style="font-size:14.5px;color:var(--text-muted);margin-top:3px;">React 18 / Next.js frontend, FastAPI backend, PostgreSQL schemas, RBAC.</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-dark);">SELECT</div>
+          </div>
+
+          <div class="arch-opt-card" onclick="selectArchetype('hospitality_os', this)">
+            <div>
+              <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-main);">Real-Time Hospitality OS (Shivalaya Model)</div>
+              <div style="font-size:14.5px;color:var(--text-muted);margin-top:3px;">3-app ecosystem: Guest QR table ordering, Kitchen KDS, and Reception POS.</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-dark);">SELECT</div>
+          </div>
+
+          <div class="arch-opt-card" onclick="selectArchetype('offshore_portal', this)">
+            <div>
+              <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-main);">Offshore Logistics Portal (OCTS Model)</div>
+              <div style="font-size:14.5px;color:var(--text-muted);margin-top:3px;">100+ crew tracking, 11 cert types, private Tailscale VPN mesh, OpenPyXL.</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-dark);">SELECT</div>
+          </div>
+
+          <div class="arch-opt-card" onclick="selectArchetype('agent_workflows', this)">
+            <div>
+              <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-main);">Autonomous Workflow &amp; RPA Fleet</div>
+              <div style="font-size:14.5px;color:var(--text-muted);margin-top:3px;">Self-hosted n8n workflows, Playwright headless RPA, and Voice AI agents.</div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-dark);">SELECT</div>
+          </div>
+        </div>
+
+        <!-- Step 2: Real-World Load & Scale Sliders -->
+        <div style="margin-bottom:32px;">
+          <div style="font-family:var(--font-mono);font-size:13.5px;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">
+            [02] Real-World Load &amp; Scale Simulation
+          </div>
+
+          <div class="sim-slider-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:15.5px;font-weight:600;color:var(--text-main);">Peak Concurrent Throughput</span>
+              <span id="lbl-rps" style="font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--cyan);">450 req/sec</span>
+            </div>
+            <input type="range" id="slider-rps" class="sim-slider" min="50" max="5000" step="50" value="450" oninput="onLoadSliderChange()"/>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--text-dark);margin-top:6px;">
+              <span>50 req/s (Startup)</span>
+              <span>1,500 req/s (Growth)</span>
+              <span>5,000 req/s (Enterprise Surge)</span>
+            </div>
+          </div>
+
+          <div class="sim-slider-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <span style="font-size:15.5px;font-weight:600;color:var(--text-main);">Database / Vector Knowledge Volume</span>
+              <span id="lbl-gb" style="font-family:var(--font-mono);font-size:15px;font-weight:700;color:var(--cyan);">120 GB</span>
+            </div>
+            <input type="range" id="slider-gb" class="sim-slider" min="10" max="2000" step="10" value="120" oninput="onLoadSliderChange()"/>
+            <div style="display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:12px;color:var(--text-dark);margin-top:6px;">
+              <span>10 GB</span>
+              <span>500 GB</span>
+              <span>2,000 GB (2 TB)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Toggle Hardened Add-ons -->
+        <div>
+          <div style="font-family:var(--font-mono);font-size:13.5px;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">
+            [03] Concurrency &amp; Infrastructure Modules
+          </div>
+
+          <div class="addon-card active" onclick="toggleAddon('postgres_lock', this)">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="addon-checkbox">✓</div>
+              <div>
+                <div style="font-size:15.5px;font-weight:600;color:var(--text-main);">PostgreSQL Advisory Locks (Concurrency-Safe)</div>
+                <div style="font-size:13.5px;color:var(--text-muted);">Eliminates race conditions during simultaneous user surges</div>
+              </div>
+            </div>
+            <div class="addon-price" data-inr="25000" data-usd="350">+₹25,000</div>
+          </div>
+
+          <div class="addon-card active" onclick="toggleAddon('vector_guard', this)">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="addon-checkbox">✓</div>
+              <div>
+                <div style="font-size:15.5px;font-weight:600;color:var(--text-main);">FAISS Vector Anti-Hallucination Guardrail</div>
+                <div style="font-size:13.5px;color:var(--text-muted);">Strict cosine distance thresholding (&ge; 0.30) preventing false outputs</div>
+              </div>
+            </div>
+            <div class="addon-price" data-inr="35000" data-usd="500">+₹35,000</div>
+          </div>
+
+          <div class="addon-card" onclick="toggleAddon('wireguard_vpn', this)">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="addon-checkbox">✓</div>
+              <div>
+                <div style="font-size:15.5px;font-weight:600;color:var(--text-main);">Tailscale Zero-Trust WireGuard VPN Mesh</div>
+                <div style="font-size:13.5px;color:var(--text-muted);">Zero open public ports; internal container-to-container encrypted mesh</div>
+              </div>
+            </div>
+            <div class="addon-price" data-inr="20000" data-usd="300">+₹20,000</div>
+          </div>
+
+          <div class="addon-card" onclick="toggleAddon('whatsapp_webhook', this)">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="addon-checkbox">✓</div>
+              <div>
+                <div style="font-size:15.5px;font-weight:600;color:var(--text-main);">Real-Time WhatsApp MSG91 / Gupshup Webhooks</div>
+                <div style="font-size:13.5px;color:var(--text-muted);">&lt;15s automated ticket/PDF dispatch with delivery receipt tracking</div>
+              </div>
+            </div>
+            <div class="addon-price" data-inr="15000" data-usd="200">+₹15,000</div>
+          </div>
+
+          <div class="addon-card" onclick="toggleAddon('payment_gateway', this)">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div class="addon-checkbox">✓</div>
+              <div>
+                <div style="font-size:15.5px;font-weight:600;color:var(--text-main);">Stripe / Razorpay Multi-Currency Gateway</div>
+                <div style="font-size:13.5px;color:var(--text-muted);">Webhooks, idempotent transaction handling, and auto-invoicing</div>
+              </div>
+            </div>
+            <div class="addon-price" data-inr="18000" data-usd="250">+₹18,000</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Live Pipeline Simulator, Real-World Telemetry & Estimate Output -->
+      <div>
+        <div class="canvas-panel">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+            <div style="font-family:var(--font-mono);font-size:13px;font-weight:700;color:var(--cyan);text-transform:uppercase;">
+              [PIPELINE SIMULATOR] Live Execution &amp; Telemetry
+            </div>
+            <button onclick="runPipelineSimulation()" id="sim-run-btn" style="background:rgba(0,212,255,0.12);border:1px solid var(--cyan);color:var(--cyan);font-family:var(--font-mono);font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:4px;cursor:pointer;transition:all 0.2s;">
+              ▶ Run Live Stress Test
+            </button>
+          </div>
+
+          <!-- Dynamic SVG Topology Visualizer -->
+          <svg id="topo-svg" viewBox="0 0 480 185" style="width:100%;height:auto;background:rgba(5,10,20,0.75);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);margin-bottom:16px;">
+            <!-- Client Devices Node -->
+            <rect x="16" y="72" width="78" height="42" rx="6" fill="#0A1628" stroke="#00D4FF" stroke-width="1.5"/>
+            <text x="55" y="92" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">INGRESS</text>
+            <text x="55" y="105" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00D4FF" text-anchor="middle" id="svg-rps-txt">450 req/s</text>
+
+            <!-- Line: Client -> API Gateway -->
+            <line x1="94" y1="93" x2="152" y2="93" stroke="#00D4FF" stroke-width="1.8" class="svg-flow-line"/>
+
+            <!-- API Gateway / Nginx Node -->
+            <rect x="152" y="63" width="88" height="60" rx="6" fill="#0A1628" stroke="#0077FF" stroke-width="1.5"/>
+            <text x="196" y="90" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="bold" fill="#FFFFFF" text-anchor="middle">EDGE PROXY</text>
+            <text x="196" y="106" font-family="'JetBrains Mono', monospace" font-size="8" fill="#00D4FF" text-anchor="middle" id="svg-lock-txt">TLS + JWT</text>
+
+            <!-- Line: Proxy -> App/Microservices -->
+            <line x1="240" y1="93" x2="292" y2="93" stroke="#0077FF" stroke-width="1.8" class="svg-flow-line"/>
+
+            <!-- App Engine Node -->
+            <rect x="292" y="53" width="102" height="80" rx="6" fill="#0D2040" stroke="#00D4FF" stroke-width="2"/>
+            <text x="343" y="88" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="bold" fill="#00D4FF" text-anchor="middle">ASVEX CORE</text>
+            <text x="343" y="105" font-family="'JetBrains Mono', monospace" font-size="8" fill="#94A3B8" text-anchor="middle" id="topo-core-text">FastAPI / Ollama</text>
+
+            <!-- Line: App -> DB -->
+            <line x1="394" y1="78" x2="426" y2="45" stroke="#00E5A0" stroke-width="1.6" class="svg-flow-line"/>
+            <!-- DB Node -->
+            <circle cx="444" cy="40" r="20" fill="#0A1628" stroke="#00E5A0" stroke-width="1.5"/>
+            <text x="444" y="43" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="bold" fill="#00E5A0" text-anchor="middle">POSTGRES</text>
+
+            <!-- Line: App -> Cache/Vector -->
+            <line x1="394" y1="108" x2="426" y2="142" stroke="#00D4FF" stroke-width="1.6" class="svg-flow-line"/>
+            <!-- Vector Node -->
+            <circle cx="444" cy="146" r="20" fill="#0A1628" stroke="#00D4FF" stroke-width="1.5"/>
+            <text x="444" y="149" font-family="'JetBrains Mono', monospace" font-size="7.5" font-weight="bold" fill="#00D4FF" text-anchor="middle" id="topo-vector-text">FAISS</text>
+          </svg>
+
+          <!-- 5-Stage Pipeline Execution Breakdown -->
+          <div class="pipe-stages" id="pipe-stages-row">
+            <div class="pipe-stage sim-done" id="pstage-1">
+              <div class="pipe-stage-num">STAGE 01</div>
+              <div class="pipe-stage-name">Edge TLS</div>
+              <div class="pipe-stage-ms" id="pms-1">1.8 ms</div>
+            </div>
+            <div class="pipe-stage sim-done" id="pstage-2">
+              <div class="pipe-stage-num">STAGE 02</div>
+              <div class="pipe-stage-name">JWT / Rate</div>
+              <div class="pipe-stage-ms" id="pms-2">1.2 ms</div>
+            </div>
+            <div class="pipe-stage sim-done" id="pstage-3">
+              <div class="pipe-stage-num">STAGE 03</div>
+              <div class="pipe-stage-name" id="pname-3">Vector RAG</div>
+              <div class="pipe-stage-ms" id="pms-3">11.4 ms</div>
+            </div>
+            <div class="pipe-stage sim-done" id="pstage-4">
+              <div class="pipe-stage-num">STAGE 04</div>
+              <div class="pipe-stage-name">Xact Lock</div>
+              <div class="pipe-stage-ms" id="pms-4">2.4 ms</div>
+            </div>
+            <div class="pipe-stage sim-done" id="pstage-5">
+              <div class="pipe-stage-num">STAGE 05</div>
+              <div class="pipe-stage-name">ACID / Hook</div>
+              <div class="pipe-stage-ms" id="pms-5">3.1 ms</div>
+            </div>
+          </div>
+
+          <!-- Real-World Calculated Engineering Telemetry -->
+          <div class="telemetry-grid">
+            <div class="telemetry-card">
+              <div class="telemetry-lbl">Simulated P99 Latency</div>
+              <div class="telemetry-val" id="calc-latency" style="color:var(--green);">19.9 ms (0% Drops)</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="telemetry-lbl">Recommended Server Spec</div>
+              <div class="telemetry-val" id="calc-compute">4 vCPU · 16GB RAM · 8GB VRAM</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="telemetry-lbl">Serialized DB Capacity</div>
+              <div class="telemetry-val" id="calc-tps" style="color:var(--cyan);">2,400 TPS (Advisory Lock)</div>
+            </div>
+            <div class="telemetry-card">
+              <div class="telemetry-lbl">Est. Monthly Cloud Hosting</div>
+              <div class="telemetry-val" id="calc-cloud" style="color:var(--gold);">₹4,200 – ₹6,800 / mo</div>
+            </div>
+          </div>
+
+          <!-- Live Simulation Console Log -->
+          <div id="sim-log-box" style="background:#040810;border:1px solid var(--border-subtle);border-radius:6px;padding:10px 14px;margin-bottom:20px;font-family:var(--font-mono);font-size:13px;color:var(--text-muted);line-height:1.6;">
+            <span style="color:var(--green);">[SIM_READY]</span> Pipeline verified at <span id="log-summary" style="color:var(--text-main);">450 req/sec · 19.9ms P99 round-trip · Zero race conditions</span>
+          </div>
+
+          <!-- Estimation Metric Readout -->
+          <div style="border-top:1px solid var(--border);padding-top:20px;">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;">
+              <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted);text-transform:uppercase;">
+                ESTIMATED ONE-TIME PROJECT INVESTMENT
+              </div>
+              <div style="font-family:var(--font-mono);font-size:12.5px;color:var(--green);font-weight:700;">
+                MILESTONE SPLIT: 40% / 30% / 30%
+              </div>
+            </div>
+            <div id="est-price-display" style="font-family:var(--font-display);font-size:clamp(30px, 4vw, 42px);font-weight:900;color:var(--cyan);line-height:1.1;margin:8px 0;">
+              ₹1,80,000 – ₹3,00,000
+            </div>
+            <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;font-family:var(--font-mono);font-size:14px;color:var(--text-muted);">
+              <div>TIMELINE: <span id="est-timeline" style="color:var(--text-main);font-weight:700;">3 – 5 Weeks</span></div>
+              <div>OWNERSHIP: <span style="color:var(--green);font-weight:700;">100% Unencumbered Git IP</span></div>
+            </div>
+
+            <!-- Deliverables List -->
+            <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:20px;">
+              <div style="font-family:var(--font-mono);font-size:12.5px;color:var(--cyan);text-transform:uppercase;font-weight:700;margin-bottom:8px;">
+                Included Architecture Deliverables
+              </div>
+              <ul id="est-deliverables" style="list-style:none;padding:0;margin:0;font-size:15px;color:var(--text-muted);line-height:1.7;">
+                <li>✓ Custom structure-preserving document parsing engine</li>
+                <li>✓ Vector database pipeline with cosine threshold anti-hallucination</li>
+                <li>✓ Model inference endpoints with JWT OAuth2 authentication</li>
+                <li>✓ Full source code Git repository + 30-day warranty</li>
+              </ul>
+            </div>
+
+            <!-- Quick Action Form -->
+            <form onsubmit="submitArchitectLead(event)" id="arch-lead-form">
+              <div class="arch-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+                <input type="text" id="arch-name" required placeholder="Your Name" style="width:100%;background:rgba(11,17,28,0.7);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;color:var(--text-main);font-family:var(--font-body);font-size:15.5px;outline:none;" />
+                <input type="text" id="arch-contact" required placeholder="Email or Phone / WhatsApp" style="width:100%;background:rgba(11,17,28,0.7);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;color:var(--text-main);font-family:var(--font-body);font-size:15.5px;outline:none;" />
+              </div>
+              <button type="submit" id="arch-submit-btn" class="btn-primary" style="width:100%;justify-content:center;">
+                Transmit Spec &amp; Lock Estimate with Founder →
+              </button>
+              <div id="arch-feedback" style="display:none;margin-top:12px;padding:10px 14px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:14px;"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ COMPLETE TRANSPARENT PRICING & INVESTMENT DIRECTORY ══ -->
+<section class="sec-padded">
+  <div class="container">
+    <div class="sec-head">
+      <span class="mono-tag">Transparent Investment Matrix</span>
+      <h2 class="sec-title">Complete Pricing Ranges.<br><em>Everything Mapped Out &amp; Clearly Stated.</em></h2>
+      <p class="sec-desc">
+        Zero hidden retainers or surprise agency markups. Every engagement is fixed-price, milestone-governed, and includes 100% source code ownership plus a 30-day post-launch defect warranty.
+      </p>
+    </div>
+
+    <div class="rev" style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>System Category / Vertical</th>
+            <th class="highlight">India Pricing Range (INR)</th>
+            <th>Global Pricing Range (USD)</th>
+            <th>Typical Timeline</th>
+            <th>Core Deliverables Included</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Full-Stack Web App / MVP</strong><br><span style="font-size:14px;color:var(--text-muted);">React / Next.js + FastAPI + PostgreSQL</span></td>
+            <td class="highlight yes">₹80,000 – ₹2,50,000</td>
+            <td>$3,000 – $10,000</td>
+            <td>4 – 8 Weeks</td>
+            <td>Up to 12 views, REST API, JWT Auth, 1 Payment Gateway, Docker deploy</td>
+          </tr>
+          <tr>
+            <td><strong>2. Enterprise AI &amp; RAG Pipeline</strong><br><span style="font-size:14px;color:var(--text-muted);">FAISS Vectors + QLoRA 4-bit + Guardrails</span></td>
+            <td class="highlight yes">₹1,20,000 – ₹3,50,000</td>
+            <td>$4,000 – $15,000</td>
+            <td>3 – 6 Weeks</td>
+            <td>Document parser, cosine threshold (&ge;0.30), private LLM API, evaluation suite</td>
+          </tr>
+          <tr>
+            <td><strong>3. Real-Time Hospitality / POS OS</strong><br><span style="font-size:14px;color:var(--text-muted);">Guest QR + Kitchen KDS + Admin (Shivalaya Model)</span></td>
+            <td class="highlight yes">₹1,15,000 – ₹2,50,000</td>
+            <td>$3,500 – $11,000</td>
+            <td>3 – 5 Weeks</td>
+            <td>3-app ecosystem, Postgres advisory locks, WhatsApp PDF bill webhooks</td>
+          </tr>
+          <tr>
+            <td><strong>4. Cross-Platform Mobile App</strong><br><span style="font-size:14px;color:var(--text-muted);">React Native (iOS + Android) + Backend</span></td>
+            <td class="highlight yes">₹1,20,000 – ₹4,00,000</td>
+            <td>$5,000 – $18,000</td>
+            <td>6 – 14 Weeks</td>
+            <td>Single codebase iOS/Android, offline sync, push notifications, Store submission</td>
+          </tr>
+          <tr>
+            <td><strong>5. Autonomous Workflow &amp; RPA Fleet</strong><br><span style="font-size:14px;color:var(--text-muted);">Self-Hosted n8n + Playwright + Voice AI</span></td>
+            <td class="highlight yes">₹50,000 – ₹1,80,000</td>
+            <td>$1,500 – $7,500</td>
+            <td>2 – 4 Weeks</td>
+            <td>Self-hosted n8n server, zero per-task fees, CRM/WhatsApp/ERP bridges</td>
+          </tr>
+          <tr>
+            <td><strong>6. Distributed Backend &amp; Scaling Rescue</strong><br><span style="font-size:14px;color:var(--text-muted);">Database Locking, Redis Queues, Tailscale VPN</span></td>
+            <td class="highlight yes">₹60,000 – ₹2,20,000</td>
+            <td>$2,200 – $9,500</td>
+            <td>2 – 5 Weeks</td>
+            <td>Query optimization, advisory locks, BullMQ workers, WireGuard mesh</td>
+          </tr>
+          <tr>
+            <td><strong>7. Dedicated Engineering Retainer</strong><br><span style="font-size:14px;color:var(--text-muted);">Continuous Sprint Feature Delivery &amp; SLA</span></td>
+            <td class="highlight yes">₹60,000 – ₹1,20,000 / mo</td>
+            <td>$2,500 – $5,000 / mo</td>
+            <td>Monthly Rolling</td>
+            <td>40–80 dedicated founder engineering hours/mo, priority SLA, weekly deploys</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Payment Milestone Governance Cards -->
+    <div class="card-grid" style="margin-top:32px;">
+      <div class="card rev d1">
+        <span class="card-tag">[MILESTONE_01] 40% KICKOFF</span>
+        <h3 class="card-title">Architecture &amp; Sprint 0</h3>
+        <p class="card-desc">
+          Initiates schema design, API contract mapping, wireframe sign-off, and core repository provisioning. No code begins without signed scope and kickoff milestone.
+        </p>
+      </div>
+      <div class="card rev d2">
+        <span class="card-tag">[MILESTONE_02] 30% MIDPOINT DEMO</span>
+        <h3 class="card-title">Live Staging Verification</h3>
+        <p class="card-desc">
+          Payable only after you inspect and click through the working backend API and core frontend flows deployed on a live staging server.
+        </p>
+      </div>
+      <div class="card rev d3">
+        <span class="card-tag">[MILESTONE_03] 30% HANDOVER</span>
+        <h3 class="card-title">Production &amp; Full IP Transfer</h3>
+        <p class="card-desc">
+          Final production deployment, Docker Compose handover, complete Git repository transfer, and activation of your 30-day complimentary defect warranty.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:68px;width:auto;display:block;filter:drop-shadow(0 0 14px rgba(0,212,255,0.35));"/>
+      <p>Bespoke high-performance software engineering studio. Led by Abhayraj Singh. Operating globally from Mumbai, India.</p>
+      <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-dark);margin-top:14px;">
+        GST-Registered Sole Proprietorship · ISO Standard Best Practices
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services &amp; Stack</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="system-architect.html">⚡ System Architect</a>
+        <a href="engineering.html">Engineering Standards</a>
+        <a href="about.html">About Founder</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">7 Capabilities</div>
+      <div class="footer-nav">
+        <a href="web-applications.html">Web Applications</a>
+        <a href="ai-automation.html">AI &amp; Automation</a>
+        <a href="mobile-apps.html">Mobile Apps</a>
+        <a href="backend-apis.html">Backend &amp; APIs</a>
+        <a href="system-integrations.html">System Integrations</a>
+        <a href="architecture-scaling.html">Architecture &amp; Scaling</a>
+        <a href="feature-development.html">Feature Development</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Direct Contact</div>
+      <div class="footer-nav">
+        <a href="mailto:abhay@asvextech.com" style="color:var(--cyan);">abhay@asvextech.com</a>
+        <a href="tel:+919892469015">+91 98924 69015</a>
+        <a href="https://wa.me/919892469015" target="_blank" style="color:#25D366;">WhatsApp Direct</a>
+        <a href="contact.html">Schedule Audit</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 ASVEX Technologies. All Rights Reserved.</div>
+    <div>Founded by Abhayraj Singh · High-Performance Engineering</div>
+  </div>
+</footer>
+
+<div class="floating-dock">
+  <a href="system-architect.html" class="dock-architect">⚡ System Architect</a>
+  <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20using%20the%20System%20Architect." target="_blank" class="dock-wa">WhatsApp Direct</a>
+  <a href="contact.html" class="dock-audit">Book Audit</a>
+</div>
+
+<script>
+let curCurrency = 'INR';
+let curArchetype = 'ai_rag';
+let activeAddons = new Set(['postgres_lock', 'vector_guard']);
+
+const ARCHETYPES = {
+  ai_rag: {
+    name: "Enterprise AI & Production RAG",
+    inr: [120000, 240000],
+    usd: [1800, 3500],
+    timeline: "3 – 5 Weeks",
+    coreText: "FastAPI / Ollama",
+    vectorText: "FAISS",
+    stage3Name: "Vector RAG",
+    baseMs: 11.4,
+    deliverables: [
+      "Custom structure-preserving document parsing engine",
+      "Vector database pipeline with cosine threshold anti-hallucination",
+      "Model inference endpoints with JWT OAuth2 authentication",
+      "Full source code Git repository + 30-day warranty"
+    ]
+  },
+  fullstack_saas: {
+    name: "Full-Stack Custom Web Platform / SaaS",
+    inr: [95000, 210000],
+    usd: [1400, 3000],
+    timeline: "4 – 6 Weeks",
+    coreText: "React + FastAPI",
+    vectorText: "Redis",
+    stage3Name: "Async API",
+    baseMs: 6.2,
+    deliverables: [
+      "Production-grade responsive web frontend & admin portal",
+      "RESTful API backend with schema validation & rate limits",
+      "Database models, migration scripts, and seed fixtures",
+      "Stripe / Razorpay multi-currency checkout integration"
+    ]
+  },
+  hospitality_os: {
+    name: "Real-Time Hospitality OS (Shivalaya Model)",
+    inr: [115000, 250000],
+    usd: [1600, 3600],
+    timeline: "3 – 5 Weeks",
+    coreText: "KDS + POS Engine",
+    vectorText: "Webhooks",
+    stage3Name: "POS Router",
+    baseMs: 5.8,
+    deliverables: [
+      "Guest table QR scanning interface with mobile payment",
+      "Kitchen Display System with ticket state synchronization",
+      "PostgreSQL transaction advisory locks for surge ordering",
+      "Automated WhatsApp bill & receipt webhook delivery"
+    ]
+  },
+  offshore_portal: {
+    name: "Offshore Logistics Portal (OCTS Model)",
+    inr: [110000, 230000],
+    usd: [1500, 3200],
+    timeline: "4 – 6 Weeks",
+    coreText: "RBAC + OpenPyXL",
+    vectorText: "WireGuard",
+    stage3Name: "RBAC Engine",
+    baseMs: 7.1,
+    deliverables: [
+      "100+ offshore personnel management & certification tracking",
+      "Zero-trust Tailscale private WireGuard network setup",
+      "OpenPyXL high-performance regulatory Excel report generator",
+      "Audit trail logging with role-based permission tiers"
+    ]
+  },
+  agent_workflows: {
+    name: "Autonomous Workflow & RPA Fleet",
+    inr: [75000, 160000],
+    usd: [1100, 2400],
+    timeline: "2 – 4 Weeks",
+    coreText: "n8n Self-Host",
+    vectorText: "Playwright",
+    stage3Name: "Worker Queue",
+    baseMs: 8.5,
+    deliverables: [
+      "Self-hosted n8n installation on your dedicated server",
+      "Multi-step automated workflows across email, CRM, and WhatsApp",
+      "Playwright browser automations for non-API web systems",
+      "Error handling, automatic retries, and failure alerts"
+    ]
+  }
+};
+
+const ADDON_RATES = {
+  postgres_lock: { inr: 25000, usd: 350 },
+  vector_guard: { inr: 35000, usd: 500 },
+  wireguard_vpn: { inr: 20000, usd: 300 },
+  whatsapp_webhook: { inr: 15000, usd: 200 },
+  payment_gateway: { inr: 18000, usd: 250 }
+};
+
+function selectArchetype(key, el) {
+  curArchetype = key;
+  document.querySelectorAll('.arch-opt-card').forEach(c => {
+    c.classList.remove('selected');
+    const label = c.querySelector('div:last-child');
+    if (label) {
+      label.textContent = 'SELECT';
+      label.style.color = 'var(--text-dark)';
+    }
+  });
+  el.classList.add('selected');
+  const activeLabel = el.querySelector('div:last-child');
+  if (activeLabel) {
+    activeLabel.textContent = 'ACTIVE';
+    activeLabel.style.color = 'var(--cyan)';
+  }
+  updateEstimate();
+  calculateRealWorldTelemetry();
+}
+
+function toggleAddon(key, el) {
+  if (activeAddons.has(key)) {
+    activeAddons.delete(key);
+    el.classList.remove('active');
+  } else {
+    activeAddons.add(key);
+    el.classList.add('active');
+  }
+  updateEstimate();
+  calculateRealWorldTelemetry();
+}
+
+function setCurrency(curr) {
+  curCurrency = curr;
+  const btnInr = document.getElementById('btn-inr');
+  const btnUsd = document.getElementById('btn-usd');
+  if (curr === 'INR') {
+    btnInr.style.background = 'var(--cyan)';
+    btnInr.style.color = '#030508';
+    btnUsd.style.background = 'transparent';
+    btnUsd.style.color = 'var(--text-muted)';
+  } else {
+    btnUsd.style.background = 'var(--cyan)';
+    btnUsd.style.color = '#030508';
+    btnInr.style.background = 'transparent';
+    btnInr.style.color = 'var(--text-muted)';
+  }
+  document.querySelectorAll('.addon-price').forEach(span => {
+    const inr = parseInt(span.getAttribute('data-inr'));
+    const usd = parseInt(span.getAttribute('data-usd'));
+    span.textContent = curr === 'INR' ? `+₹${inr.toLocaleString('en-IN')}` : `+$${usd.toLocaleString()}`;
+  });
+  updateEstimate();
+  calculateRealWorldTelemetry();
+}
+
+function onLoadSliderChange() {
+  const rps = parseInt(document.getElementById('slider-rps').value);
+  const gb = parseInt(document.getElementById('slider-gb').value);
+  document.getElementById('lbl-rps').textContent = `${rps.toLocaleString()} req/sec`;
+  document.getElementById('lbl-gb').textContent = `${gb.toLocaleString()} GB`;
+  document.getElementById('svg-rps-txt').textContent = `${rps} req/s`;
+  calculateRealWorldTelemetry();
+}
+
+function calculateRealWorldTelemetry() {
+  const rps = parseInt(document.getElementById('slider-rps').value);
+  const gb = parseInt(document.getElementById('slider-gb').value);
+  const arch = ARCHETYPES[curArchetype] || ARCHETYPES.ai_rag;
+  const hasLock = activeAddons.has('postgres_lock');
+  const hasVpn = activeAddons.has('wireguard_vpn');
+
+  // Stage timings (ms)
+  const s1 = +(1.5 + (rps / 2500)).toFixed(1);
+  const s2 = +(1.1 + (hasVpn ? 0.4 : 0)).toFixed(1);
+  const s3 = +(arch.baseMs + (gb / 450) + (rps / 1200)).toFixed(1);
+  const s4 = hasLock ? +(2.1 + (rps / 1800)).toFixed(1) : +(8.5 + (rps / 400)).toFixed(1);
+  const s5 = +(2.8 + (rps / 2200)).toFixed(1);
+  const totalMs = +(s1 + s2 + s3 + s4 + s5).toFixed(1);
+
+  document.getElementById('pname-3').textContent = arch.stage3Name;
+  document.getElementById('pms-1').textContent = `${s1} ms`;
+  document.getElementById('pms-2').textContent = `${s2} ms`;
+  document.getElementById('pms-3').textContent = `${s3} ms`;
+  document.getElementById('pms-4').textContent = `${s4} ms`;
+  document.getElementById('pms-5').textContent = `${s5} ms`;
+
+  const dropText = hasLock ? '0% Race Drops' : (rps > 800 ? '⚠ Lock Contention Risk' : 'Standard Locking');
+  document.getElementById('calc-latency').textContent = `${totalMs} ms (${dropText})`;
+  document.getElementById('calc-latency').style.color = (!hasLock && rps > 800) ? 'var(--gold)' : 'var(--green)';
+
+  // Compute sizing
+  let vcpu = 2, ram = 8;
+  if (rps > 500 || gb > 200) { vcpu = 4; ram = 16; }
+  if (rps > 1800 || gb > 600) { vcpu = 8; ram = 32; }
+  if (rps > 3500 || gb > 1200) { vcpu = 16; ram = 64; }
+  const gpuSpec = curArchetype === 'ai_rag' ? ' · 12GB VRAM (4-bit)' : '';
+  document.getElementById('calc-compute').textContent = `${vcpu} vCPU · ${ram}GB RAM${gpuSpec}`;
+
+  // TPS capacity
+  const maxTps = hasLock ? Math.max(2400, Math.round(rps * 1.45)) : Math.max(600, Math.round(rps * 0.85));
+  document.getElementById('calc-tps').textContent = `${maxTps.toLocaleString()} TPS (${hasLock ? 'Advisory Lock' : 'Row Lock'})`;
+
+  // Cloud Hosting Monthly Cost
+  let cloudInrMin = vcpu * 950 + Math.round(gb * 3.5) + (curArchetype === 'ai_rag' ? 2500 : 0);
+  let cloudInrMax = Math.round(cloudInrMin * 1.45);
+  if (curCurrency === 'INR') {
+    document.getElementById('calc-cloud').textContent = `₹${cloudInrMin.toLocaleString('en-IN')} – ₹${cloudInrMax.toLocaleString('en-IN')} / mo`;
+  } else {
+    const usdMin = Math.round(cloudInrMin / 82);
+    const usdMax = Math.round(cloudInrMax / 82);
+    document.getElementById('calc-cloud').textContent = `$${usdMin} – $${usdMax} / mo`;
+  }
+
+  document.getElementById('svg-lock-txt').textContent = hasVpn ? 'WireGuard + JWT' : 'TLS + JWT';
+  document.getElementById('log-summary').textContent = `${rps.toLocaleString()} req/s · ${totalMs}ms P99 round-trip · ${hasLock ? 'Zero race collisions' : 'Advisory lock recommended for high load'}`;
+}
+
+function runPipelineSimulation() {
+  const btn = document.getElementById('sim-run-btn');
+  const logBox = document.getElementById('sim-log-box');
+  const rps = parseInt(document.getElementById('slider-rps').value);
+  btn.disabled = true;
+  btn.textContent = '⚡ Simulating Packet Flow...';
+
+  const stages = [1, 2, 3, 4, 5].map(i => document.getElementById(`pstage-${i}`));
+  stages.forEach(s => { s.classList.remove('sim-active', 'sim-done'); });
+
+  const messages = [
+    `[STAGE_01] TLS 1.3 Handshake & Nginx Reverse Proxy ingress verified (${rps} req/s)...`,
+    `[STAGE_02] JWT OAuth2 token signature & Redis rate bucket validated...`,
+    `[STAGE_03] Executing ${ARCHETYPES[curArchetype].name} core worker pipeline...`,
+    `[STAGE_04] Acquiring pg_advisory_xact_lock(hash64) — serializing concurrent writes...`,
+    `[STAGE_05] ACID transaction committed & async webhook dispatched. 0% packet loss.`
+  ];
+
+  stages.forEach((stageEl, idx) => {
+    setTimeout(() => {
+      stages.forEach(s => s.classList.remove('sim-active'));
+      for (let j = 0; j < idx; j++) stages[j].classList.add('sim-done');
+      stageEl.classList.add('sim-active');
+      logBox.innerHTML = `<span style="color:var(--cyan);">▶ RUNNING</span> <span style="color:var(--text-main);">${messages[idx]}</span>`;
+    }, idx * 320);
+  });
+
+  setTimeout(() => {
+    stages.forEach(s => { s.classList.remove('sim-active'); s.classList.add('sim-done'); });
+    btn.disabled = false;
+    btn.textContent = '▶ Run Live Stress Test';
+    calculateRealWorldTelemetry();
+    const totalMs = document.getElementById('calc-latency').textContent;
+    logBox.innerHTML = `<span style="color:var(--green);">[PASS ✓]</span> Stress test complete at <strong>${rps.toLocaleString()} req/s</strong> — P99: <strong style="color:var(--green);">${totalMs}</strong>`;
+  }, 5 * 320 + 150);
+}
+
+async function updateEstimate() {
+  const arch = ARCHETYPES[curArchetype] || ARCHETYPES.ai_rag;
+  
+  try {
+    const res = await fetch('/api/estimate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        archetype: curArchetype,
+        features: Array.from(activeAddons),
+        currency: curCurrency
+      })
+    });
+    if (res.ok) {
+      const data = await res.json();
+      document.getElementById('est-price-display').textContent = data.formattedPrice;
+      document.getElementById('est-timeline').textContent = data.timeline;
+    } else {
+      throw new Error();
+    }
+  } catch (e) {
+    let min = curCurrency === 'INR' ? arch.inr[0] : arch.usd[0];
+    let max = curCurrency === 'INR' ? arch.inr[1] : arch.usd[1];
+    activeAddons.forEach(aKey => {
+      if (ADDON_RATES[aKey]) {
+        min += curCurrency === 'INR' ? ADDON_RATES[aKey].inr : ADDON_RATES[aKey].usd;
+        max += curCurrency === 'INR' ? ADDON_RATES[aKey].inr : ADDON_RATES[aKey].usd;
+      }
+    });
+    document.getElementById('est-price-display').textContent = curCurrency === 'INR'
+      ? `₹${min.toLocaleString('en-IN')} – ₹${max.toLocaleString('en-IN')}`
+      : `$${min.toLocaleString()} – $${max.toLocaleString()}`;
+    document.getElementById('est-timeline').textContent = arch.timeline;
+  }
+
+  document.getElementById('topo-core-text').textContent = arch.coreText;
+  document.getElementById('topo-vector-text').textContent = arch.vectorText;
+
+  const ul = document.getElementById('est-deliverables');
+  ul.innerHTML = arch.deliverables.map(d => `<li>✓ ${d}</li>`).join('');
+}
+
+async function submitArchitectLead(e) {
+  e.preventDefault();
+  const btn = document.getElementById('arch-submit-btn');
+  const feedback = document.getElementById('arch-feedback');
+  const arch = ARCHETYPES[curArchetype];
+  const rps = document.getElementById('slider-rps').value;
+  const gb = document.getElementById('slider-gb').value;
+
+  const payload = {
+    name: document.getElementById('arch-name').value,
+    email: document.getElementById('arch-contact').value,
+    service: arch.name,
+    budget: document.getElementById('est-price-display').textContent,
+    details: `Configured via System Architect. Target Load: ${rps} req/s, Volume: ${gb} GB. Addons: ${Array.from(activeAddons).join(', ') || 'None'}`
+  };
+
+  btn.textContent = "Transmitting Specification...";
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      feedback.style.display = 'block';
+      feedback.style.background = 'rgba(0, 229, 160, 0.1)';
+      feedback.style.border = '1px solid rgba(0, 229, 160, 0.3)';
+      feedback.style.color = 'var(--green)';
+      feedback.textContent = `✓ Specification Transmitted (#${data.leadId}). Abhayraj Singh will review and reply within 24 hours.`;
+      document.getElementById('arch-lead-form').reset();
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    feedback.style.display = 'block';
+    feedback.style.background = 'rgba(0, 212, 255, 0.1)';
+    feedback.style.border = '1px solid rgba(0, 212, 255, 0.3)';
+    feedback.style.color = 'var(--cyan)';
+    feedback.textContent = "✓ Opening direct founder WhatsApp with your configured spec...";
+    const waText = encodeURIComponent(`Hi Abhayraj, I configured a system specification on ASVEX Technologies:\nName: ${payload.name}\nContact: ${payload.email}\nSystem Archetype: ${payload.service}\nTarget Load: ${rps} req/s (${gb} GB)\nEstimated Investment: ${payload.budget}\nAddons: ${Array.from(activeAddons).join(', ')}`);
+    window.open(`https://wa.me/919892469015?text=${waText}`, '_blank');
+  } finally {
+    btn.textContent = "Transmit Spec & Lock Estimate with Founder →";
+    btn.disabled = false;
+  }
+}
+
+updateEstimate();
+calculateRealWorldTelemetry();
+</script>
+<script src="assets/js/subpage-luxury.js"></script>
+</body>
+</html>

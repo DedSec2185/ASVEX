@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Contact &amp; Schedule Architecture Audit — ASVEX Technologies</title>
+<meta name="description" content="Directly connect with founder Abhayraj Singh. Schedule a complimentary 30-minute Architecture Audit or submit your engineering project brief."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="stylesheet" href="assets/css/subpage-luxury.css"/>
+<style>
+.form-input {
+  width: 100%;
+  background: rgba(11, 17, 28, 0.7);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-top: 6px;
+}
+.form-input:focus {
+  border-color: var(--cyan);
+}
+.form-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.contact-tab-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.contact-tab-btn.active {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+@media (max-width: 640px) {
+  .proj-grid-2 { grid-template-columns: 1fr !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav>
+  <a href="index.html" class="nav-brand" aria-label="ASVEX Technologies">
+    <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" class="nav-logo-img"/>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="case-studies.html" class="nav-link">Case Studies</a>
+    <a href="system-architect.html" class="nav-link nav-link-cyan">⚡ System Architect</a>
+    <a href="engineering.html" class="nav-link">Engineering</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link active">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="nav-link desktop-only" style="color:#25D366;">WhatsApp Direct</a>
+    <a href="contact.html" class="nav-cta desktop-only active">Start Project →</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MOBILE NAVIGATION DRAWER ══ -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+  <div class="drawer-header">
+    <a href="index.html" style="display:flex;align-items:center;">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:50px;width:auto;"/>
+    </a>
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+  </div>
+  <div class="drawer-nav">
+    <a href="index.html" class="drawer-link"><span class="drawer-num">[01]</span> Home</a>
+    <a href="services.html" class="drawer-link"><span class="drawer-num">[02]</span> Services &amp; Capabilities</a>
+    <a href="case-studies.html" class="drawer-link"><span class="drawer-num">[03]</span> Case Studies &amp; Proof</a>
+    <a href="system-architect.html" class="drawer-link drawer-cyan"><span class="drawer-num">[04]</span> ⚡ System Architect</a>
+    <a href="engineering.html" class="drawer-link"><span class="drawer-num">[05]</span> Engineering Standards</a>
+    <a href="about.html" class="drawer-link"><span class="drawer-num">[06]</span> Founder &amp; Studio</a>
+    <a href="contact.html" class="drawer-link active"><span class="drawer-num">[07]</span> Architecture Audit &amp; Contact</a>
+  </div>
+  <div class="drawer-footer">
+    <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;justify-content:center;">Book Architecture Audit →</a>
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="btn-wa" style="width:100%;text-align:center;justify-content:center;margin-top:10px;">WhatsApp Founder Direct</a>
+  </div>
+</aside>
+
+<!-- ══ HERO ══ -->
+<header class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Contact &amp; Intake</div>
+    <div class="page-eyebrow">DIRECT FOUNDER ENGAGEMENT · 24-HOUR GUARANTEED SLA</div>
+    <h1 class="page-title">Initiate Your Engagement.<br><em>Direct Founder Response.</em></h1>
+    <p class="page-desc">
+      Whether you need an architectural review of a failing legacy codebase or want to scope an autonomous AI application from scratch, we respond personally within 24 hours.
+    </p>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<!-- ══ INTAKE FORMS & CONTACT CARDS ══ -->
+<section class="sec-padded" style="background:var(--bg-subtle);">
+  <div class="container">
+    <div class="contact-grid">
+      
+      <!-- Left Column: Forms -->
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:clamp(22px,4vw,40px);backdrop-filter:blur(16px);" class="rev d1">
+        <!-- Form Tabs -->
+        <div style="display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap;">
+          <button class="contact-tab-btn active" id="tab-audit-btn" onclick="switchFormTab('audit')">
+            Schedule 30-Min Audit (Free)
+          </button>
+          <button class="contact-tab-btn" id="tab-project-btn" onclick="switchFormTab('project')">
+            Submit Full Project Scope
+          </button>
+        </div>
+
+        <!-- FORM 1: AUDIT REQUEST -->
+        <div id="form-audit-block">
+          <div style="margin-bottom:20px;">
+            <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-main);">
+              Complimentary Architecture &amp; Automation Audit
+            </h3>
+            <p style="font-size:15.5px;color:var(--text-muted);margin-top:4px;">
+              Present 1 specific operational bottleneck or database struggle. Founder Abhayraj Singh will analyze your requirements and deliver a written architecture plan with zero sales pressure.
+            </p>
+          </div>
+
+          <form onsubmit="submitAuditRequest(event)" id="audit-form">
+            <div style="margin-bottom:16px;">
+              <label class="form-label">Your Name &amp; Title</label>
+              <input type="text" id="audit-name" required placeholder="e.g. Vikram Mehta, CTO" class="form-input"/>
+            </div>
+            <div style="margin-bottom:16px;">
+              <label class="form-label">Email Address or WhatsApp Number</label>
+              <input type="text" id="audit-contact" required placeholder="vikram@enterprise.io / +91 98..." class="form-input"/>
+            </div>
+            <div style="margin-bottom:24px;">
+              <label class="form-label">The Core Bottleneck or Scaling Challenge</label>
+              <textarea id="audit-bottleneck" required rows="4" placeholder="e.g. High concurrent table updates causing 504 timeouts on checkout. Need advisory lock architecture." class="form-input"></textarea>
+            </div>
+            <button type="submit" id="audit-submit-btn" class="btn-primary" style="width:100%;justify-content:center;">
+              Request Audit Session →
+            </button>
+            <div id="audit-feedback" style="display:none;margin-top:14px;padding:12px 16px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:14px;"></div>
+          </form>
+        </div>
+
+        <!-- FORM 2: PROJECT INQUIRY -->
+        <div id="form-project-block" style="display:none;">
+          <div style="margin-bottom:20px;">
+            <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-main);">
+              Scope a New Production System
+            </h3>
+            <p style="font-size:15.5px;color:var(--text-muted);margin-top:4px;">
+              Tell us about your application, timeline requirements, and budget constraints.
+            </p>
+          </div>
+
+          <form onsubmit="submitProjectInquiry(event)" id="project-form">
+            <div class="proj-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+              <div>
+                <label class="form-label">Full Name</label>
+                <input type="text" id="proj-name" required placeholder="Your Name" class="form-input"/>
+              </div>
+              <div>
+                <label class="form-label">Company / Venture Name</label>
+                <input type="text" id="proj-company" placeholder="e.g. Apex Marine Logistics" class="form-input"/>
+              </div>
+            </div>
+
+            <div class="proj-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+              <div>
+                <label class="form-label">Email Address</label>
+                <input type="email" id="proj-email" required placeholder="name@company.com" class="form-input"/>
+              </div>
+              <div>
+                <label class="form-label">Phone / WhatsApp</label>
+                <input type="tel" id="proj-phone" required placeholder="+91 98924 69015" class="form-input"/>
+              </div>
+            </div>
+
+            <div class="proj-grid-2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;">
+              <div>
+                <label class="form-label">Primary Vertical</label>
+                <select id="proj-service" class="form-input" style="padding:11px 16px;">
+                  <option value="Web Applications & SaaS">Web Applications &amp; SaaS</option>
+                  <option value="Enterprise AI & RAG">Enterprise AI &amp; RAG</option>
+                  <option value="Mobile Apps (iOS & Android)">Mobile Apps (iOS &amp; Android)</option>
+                  <option value="Backend APIs & Microservices">Backend APIs &amp; Microservices</option>
+                  <option value="System Integrations">System Integrations</option>
+                  <option value="Architecture & Scaling">Architecture &amp; Scaling</option>
+                  <option value="Monthly Retainer">Monthly Engineering Retainer</option>
+                </select>
+              </div>
+              <div>
+                <label class="form-label">Target Investment</label>
+                <select id="proj-budget" class="form-input" style="padding:11px 16px;">
+                  <option value="INR 60k - 1.2L">₹60,000 – ₹1,20,000 ($800 – $1,500)</option>
+                  <option value="INR 1.2L - 2.5L" selected>₹1,20,000 – ₹2,50,000 ($1,500 – $3,500)</option>
+                  <option value="INR 2.5L - 5.0L">₹2,50,000 – ₹5,00,000 ($3,500 – $7,000)</option>
+                  <option value="INR 5.0L+">₹5,00,000+ ($7,000+ Enterprise)</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-bottom:24px;">
+              <label class="form-label">Brief Description of Project Scope &amp; Deliverables</label>
+              <textarea id="proj-details" required rows="4" placeholder="Detail your core user flow, database requirements, third-party integrations, and target launch deadline..." class="form-input"></textarea>
+            </div>
+
+            <button type="submit" id="proj-submit-btn" class="btn-primary" style="width:100%;justify-content:center;">
+              Submit Project Inquiry →
+            </button>
+            <div id="proj-feedback" style="display:none;margin-top:14px;padding:12px 16px;border-radius:var(--radius-sm);font-family:var(--font-mono);font-size:14px;"></div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Column: Direct Info -->
+      <div class="rev d2">
+        <!-- Direct Founder Contact Box -->
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:36px 30px;backdrop-filter:blur(16px);margin-bottom:24px;">
+          <span class="mono-tag">Direct Founder Desk</span>
+          <h3 style="font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--text-main);margin-bottom:12px;">
+            Talk to Founder Abhayraj Singh
+          </h3>
+          <p style="font-size:16px;color:var(--text-muted);line-height:1.75;margin-bottom:24px;">
+            For urgent commercial inquiries, message founder Abhayraj Singh directly on WhatsApp. We operate internationally with call overlap covering UK business hours and US East mornings.
+          </p>
+
+          <div style="display:flex;flex-direction:column;gap:18px;">
+            <div>
+              <div style="font-family:var(--font-mono);font-size:12px;color:var(--cyan);text-transform:uppercase;">EMAIL</div>
+              <a href="mailto:abhay@asvextech.com" style="color:var(--text-main);font-weight:700;text-decoration:none;font-size:15px;">abhay@asvextech.com</a>
+            </div>
+
+            <div>
+              <div style="font-family:var(--font-mono);font-size:12px;color:var(--cyan);text-transform:uppercase;">WHATSAPP / PHONE</div>
+              <a href="https://wa.me/919892469015" target="_blank" style="color:#25D366;font-weight:700;text-decoration:none;font-size:15px;">+91 98924 69015</a>
+            </div>
+
+            <div>
+              <div style="font-family:var(--font-mono);font-size:12px;color:var(--cyan);text-transform:uppercase;">LOCATION &amp; JURISDICTION</div>
+              <div style="color:var(--text-muted);font-size:15.5px;">Mumbai, Maharashtra, India · Global Operations</div>
+            </div>
+
+            <div>
+              <div style="font-family:var(--font-mono);font-size:12px;font-weight:700;color:var(--cyan);text-transform:uppercase;margin-bottom:3px;">RESPONSE SLA</div>
+              <div style="color:var(--green);font-weight:700;font-size:15.5px;">Guaranteed Under 24 Hours · Direct Founder</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SLA Commitments -->
+        <div style="background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:24px;">
+          <div style="font-family:var(--font-mono);font-size:13px;color:var(--green);font-weight:700;text-transform:uppercase;margin-bottom:10px;">
+            Service Level Commitment
+          </div>
+          <ul style="list-style:none;padding:0;margin:0;font-size:15px;color:var(--text-muted);line-height:1.7;">
+            <li>✓ 24-hour response on all submitted briefs</li>
+            <li>✓ Strict non-disclosure (NDA upon request)</li>
+            <li>✓ Fixed milestone pricing with zero hidden fees</li>
+            <li>✓ 100% intellectual property ownership transfer</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:68px;width:auto;display:block;"/>
+      <p>Bespoke high-performance software engineering studio. Led by Abhayraj Singh. Operating globally from Mumbai, India.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services &amp; Stack</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="system-architect.html">⚡ System Architect</a>
+        <a href="engineering.html">Engineering Standards</a>
+        <a href="about.html">About Founder</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">7 Capabilities</div>
+      <div class="footer-nav">
+        <a href="web-applications.html">Web Applications</a>
+        <a href="ai-automation.html">AI &amp; Automation</a>
+        <a href="mobile-apps.html">Mobile Apps</a>
+        <a href="backend-apis.html">Backend &amp; APIs</a>
+        <a href="system-integrations.html">System Integrations</a>
+        <a href="architecture-scaling.html">Architecture &amp; Scaling</a>
+        <a href="feature-development.html">Feature Development</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Direct Contact</div>
+      <div class="footer-nav">
+        <a href="mailto:abhay@asvextech.com" style="color:var(--cyan);">abhay@asvextech.com</a>
+        <a href="tel:+919892469015">+91 98924 69015</a>
+        <a href="https://wa.me/919892469015" target="_blank" style="color:#25D366;">WhatsApp Direct</a>
+        <a href="contact.html">Schedule Audit</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 ASVEX Technologies. All Rights Reserved.</div>
+    <div>Founded by Abhayraj Singh · High-Performance Engineering</div>
+  </div>
+</footer>
+
+<div class="floating-dock">
+  <a href="system-architect.html" class="dock-architect">⚡ System Architect</a>
+  <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20reaching%20out." target="_blank" class="dock-wa">WhatsApp Direct</a>
+  <a href="contact.html" class="dock-audit">Book Audit</a>
+</div>
+
+<script>
+function switchFormTab(tab) {
+  const btnAudit = document.getElementById('tab-audit-btn');
+  const btnProj = document.getElementById('tab-project-btn');
+  const blockAudit = document.getElementById('form-audit-block');
+  const blockProj = document.getElementById('form-project-block');
+
+  if (tab === 'audit') {
+    btnAudit.classList.add('active');
+    btnProj.classList.remove('active');
+    blockAudit.style.display = 'block';
+    blockProj.style.display = 'none';
+  } else {
+    btnProj.classList.add('active');
+    btnAudit.classList.remove('active');
+    blockProj.style.display = 'block';
+    blockAudit.style.display = 'none';
+  }
+}
+
+async function submitAuditRequest(e) {
+  e.preventDefault();
+  const btn = document.getElementById('audit-submit-btn');
+  const feedback = document.getElementById('audit-feedback');
+  
+  const payload = {
+    name: document.getElementById('audit-name').value,
+    contact: document.getElementById('audit-contact').value,
+    bottleneck: document.getElementById('audit-bottleneck').value
+  };
+
+  btn.textContent = "Transmitting to Engine...";
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/audit-request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      feedback.style.display = 'block';
+      feedback.style.background = 'rgba(0, 229, 160, 0.1)';
+      feedback.style.border = '1px solid rgba(0, 229, 160, 0.3)';
+      feedback.style.color = 'var(--green)';
+      feedback.textContent = `✓ Architecture Audit Registered (#${data.auditId}). Abhayraj Singh will reach out to lock in your 30-min slot.`;
+      document.getElementById('audit-form').reset();
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    feedback.style.display = 'block';
+    feedback.style.background = 'rgba(0, 212, 255, 0.1)';
+    feedback.style.border = '1px solid rgba(0, 212, 255, 0.3)';
+    feedback.style.color = 'var(--cyan)';
+    feedback.textContent = "✓ Opening founder WhatsApp to confirm your audit slot...";
+    const waMsg = encodeURIComponent(`Hi Abhayraj, I'd like to book a 30-Minute Architecture Audit:\nName: ${payload.name}\nContact: ${payload.contact}\nBottleneck: ${payload.bottleneck}`);
+    window.open(`https://wa.me/919892469015?text=${waMsg}`, '_blank');
+  } finally {
+    btn.textContent = "Request Audit Session →";
+    btn.disabled = false;
+  }
+}
+
+async function submitProjectInquiry(e) {
+  e.preventDefault();
+  const btn = document.getElementById('proj-submit-btn');
+  const feedback = document.getElementById('proj-feedback');
+
+  const payload = {
+    name: document.getElementById('proj-name').value,
+    company: document.getElementById('proj-company').value || "Not specified",
+    email: document.getElementById('proj-email').value,
+    phone: document.getElementById('proj-phone').value,
+    service: document.getElementById('proj-service').value,
+    budget: document.getElementById('proj-budget').value,
+    details: document.getElementById('proj-details').value
+  };
+
+  btn.textContent = "Transmitting to ASVEX Engine...";
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/inquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      feedback.style.display = 'block';
+      feedback.style.background = 'rgba(0, 229, 160, 0.1)';
+      feedback.style.border = '1px solid rgba(0, 229, 160, 0.3)';
+      feedback.style.color = 'var(--green)';
+      feedback.textContent = `✓ Project Inquiry Registered (#${data.leadId}). Abhayraj Singh will respond within 24 hours.`;
+      document.getElementById('project-form').reset();
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    feedback.style.display = 'block';
+    feedback.style.background = 'rgba(0, 212, 255, 0.1)';
+    feedback.style.border = '1px solid rgba(0, 212, 255, 0.3)';
+    feedback.style.color = 'var(--cyan)';
+    feedback.textContent = "✓ Opening founder WhatsApp with your project brief...";
+    const waMsg = encodeURIComponent(`Hi Abhayraj, I submitted a project inquiry for ASVEX Technologies:\nName: ${payload.name}\nCompany: ${payload.company}\nEmail: ${payload.email}\nPhone: ${payload.phone}\nService: ${payload.service}\nBudget: ${payload.budget}\nDetails: ${payload.details}`);
+    window.open(`https://wa.me/919892469015?text=${waMsg}`, '_blank');
+  } finally {
+    btn.textContent = "Submit Project Inquiry →";
+    btn.disabled = false;
+  }
+}
+</script>
+<script src="assets/js/subpage-luxury.js"></script>
+</body>
+</html>

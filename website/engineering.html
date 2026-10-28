@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Engineering Standards & Production Code — ASVEX Technologies</title>
+<meta name="description" content="Inspect real production code snippets and architectural principles implemented by ASVEX Technologies and founder Abhayraj Singh."/>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<link rel="stylesheet" href="assets/css/subpage-luxury.css"/>
+<style>
+/* Terminal Custom UI */
+.term-box {
+  background: #020408;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 212, 255, 0.08);
+}
+.term-bar {
+  background: #070D18;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.term-dots {
+  display: flex;
+  gap: 7px;
+}
+.term-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+.term-dot.r { background: #FF5F56; }
+.term-dot.y { background: #FFBD2E; }
+.term-dot.g { background: #27C93F; }
+
+.term-tabs {
+  display: flex;
+  gap: 4px;
+  background: #040810;
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  overflow-x: auto;
+}
+.term-tab {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 9px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.term-tab:hover {
+  color: var(--text-main);
+}
+.term-tab.active {
+  color: var(--cyan);
+  background: rgba(0, 212, 255, 0.08);
+  border-color: rgba(0, 212, 255, 0.3);
+}
+
+.term-body {
+  padding: 28px;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  line-height: 1.7;
+  color: #D1D5DB;
+  overflow-x: auto;
+  max-height: 580px;
+}
+.term-body pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+</style>
+</head>
+<body>
+
+<!-- ══ NAVIGATION ══ -->
+<nav>
+  <a href="index.html" class="nav-brand" aria-label="ASVEX Technologies">
+    <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" class="nav-logo-img"/>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="services.html" class="nav-link">Services</a>
+    <a href="case-studies.html" class="nav-link">Case Studies</a>
+    <a href="system-architect.html" class="nav-link nav-link-cyan">⚡ System Architect</a>
+    <a href="engineering.html" class="nav-link active">Engineering</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="nav-link desktop-only" style="color:#25D366;">WhatsApp Direct</a>
+    <a href="contact.html" class="nav-cta desktop-only">Start Project →</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MOBILE NAVIGATION DRAWER ══ -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+  <div class="drawer-header">
+    <a href="index.html" style="display:flex;align-items:center;">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:50px;width:auto;"/>
+    </a>
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+  </div>
+  <div class="drawer-nav">
+    <a href="index.html" class="drawer-link"><span class="drawer-num">[01]</span> Home</a>
+    <a href="services.html" class="drawer-link"><span class="drawer-num">[02]</span> Services &amp; Capabilities</a>
+    <a href="case-studies.html" class="drawer-link"><span class="drawer-num">[03]</span> Case Studies &amp; Proof</a>
+    <a href="system-architect.html" class="drawer-link drawer-cyan"><span class="drawer-num">[04]</span> ⚡ System Architect</a>
+    <a href="engineering.html" class="drawer-link active"><span class="drawer-num">[05]</span> Engineering Standards</a>
+    <a href="about.html" class="drawer-link"><span class="drawer-num">[06]</span> Founder &amp; Studio</a>
+    <a href="contact.html" class="drawer-link"><span class="drawer-num">[07]</span> Architecture Audit &amp; Contact</a>
+  </div>
+  <div class="drawer-footer">
+    <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;justify-content:center;">Book Architecture Audit →</a>
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="btn-wa" style="width:100%;text-align:center;justify-content:center;margin-top:10px;">WhatsApp Founder Direct</a>
+  </div>
+</aside>
+
+<!-- ══ HERO ══ -->
+<header class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Engineering Standards</div>
+    <div class="page-eyebrow">PRODUCTION CODE TERMINAL &amp; ARCHITECTURAL AXIOMS</div>
+    <h1 class="page-title">Proof in Code.<br><em>How We Actually Build Systems.</em></h1>
+    <p class="page-desc">
+      We hold our code to enterprise engineering rigor: strict PostgreSQL transaction serialization, mathematically bounded vector retrieval, and zero-trust container networks.
+    </p>
+  </div>
+</header>
+
+<div class="divider"></div>
+
+<!-- ══ PRODUCTION CODE TERMINAL ══ -->
+<section class="sec-padded" style="background:var(--bg-subtle);">
+  <div class="container">
+    <div class="sec-head">
+      <span class="mono-tag">Interactive Terminal</span>
+      <h2 class="sec-title">Live Production Code Excerpts</h2>
+      <p class="sec-desc">
+        Click through the tabs below to inspect authentic architectural patterns deployed across our commercial client systems.
+      </p>
+    </div>
+
+    <div class="term-box rev d1">
+      <div class="term-bar">
+        <div class="term-dots">
+          <div class="term-dot r"></div>
+          <div class="term-dot y"></div>
+          <div class="term-dot g"></div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:13px;color:var(--text-muted);">
+          bash — asvex@core-prod: ~ / architecture_inspection
+        </div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--green);">
+          READ_ONLY
+        </div>
+      </div>
+
+      <div class="term-tabs">
+        <button class="term-tab active" onclick="switchSnippet('shivalaya', this)">Shivalaya: Advisory Lock SQL</button>
+        <button class="term-tab" onclick="switchSnippet('jio_faiss', this)">Reliance Jio: FAISS Cosine Retrieval</button>
+        <button class="term-tab" onclick="switchSnippet('octs_vpn', this)">OCTS: Zero-Trust WireGuard Compose</button>
+        <button class="term-tab" onclick="switchSnippet('mcp_protocol', this)">Reliance Jio: MCP Runtime Discovery</button>
+      </div>
+
+      <div class="term-body">
+        <pre id="code-display"></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ══ 4 CORE ENGINEERING PRINCIPLES ══ -->
+<section class="sec-padded">
+  <div class="container">
+    <div class="sec-head">
+      <span class="mono-tag">Architectural Axioms</span>
+      <h2 class="sec-title">Four Non-Negotiable Standards</h2>
+      <p class="sec-desc">Every platform built by ASVEX Technologies adheres to these foundational engineering requirements.</p>
+    </div>
+
+    <div class="card-grid">
+      <div class="card rev d1">
+        <span class="card-tag">[AXIOM_01] CONCURRENCY SAFETY</span>
+        <h3 class="card-title">Advisory Locks Over Table Starvation</h3>
+        <p class="card-desc">
+          We never execute raw table locks (<code style="color:var(--cyan);">LOCK TABLE</code>) during high-throughput user operations. Instead, we compute unique 64-bit application hashes and leverage PostgreSQL transaction advisory locks to guarantee zero-race serialization without degrading read availability.
+        </p>
+      </div>
+
+      <div class="card rev d2">
+        <span class="card-tag">[AXIOM_02] ANTI-HALLUCINATION</span>
+        <h3 class="card-title">Hard Cosine Distance Thresholding</h3>
+        <p class="card-desc">
+          Vector similarity without distance bounding is dangerous in enterprise environments. Our RAG pipelines reject any chunk with cosine similarity under 0.30, forcing the model to explicitly return "Data not found in documentation" rather than fabricating configuration parameters.
+        </p>
+      </div>
+
+      <div class="card rev d3">
+        <span class="card-tag">[AXIOM_03] ZERO-TRUST INFRASTRUCTURE</span>
+        <h3 class="card-title">Private VPN Mesh Networks</h3>
+        <p class="card-desc">
+          Backend API containers and database instances should never be accessible from public IP addresses. We deploy private Tailscale WireGuard mesh networks so that administrative dashboards communicate exclusively over encrypted internal peer tunnels.
+        </p>
+      </div>
+
+      <div class="card rev d1">
+        <span class="card-tag">[AXIOM_04] CODE AUTONOMY</span>
+        <h3 class="card-title">100% Unencumbered IP Ownership</h3>
+        <p class="card-desc">
+          We believe clients should own what they pay for. On final milestone delivery, you receive the complete un-obfuscated Git repository, Docker Compose configurations, and database migration histories with zero recurring ASVEX licensing royalties.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CALL TO ACTION ══ -->
+<section class="cta-strip">
+  <div class="container" style="max-width:760px;">
+    <h2 class="cta-strip-h">Want your system engineered with these standards?</h2>
+    <p>Schedule a 30-minute Architecture Audit. We will analyze your current code and database queries with zero sales pitch.</p>
+    <div class="btn-row">
+      <a href="contact.html" class="btn-primary">Book Architecture Audit →</a>
+      <a href="case-studies.html" class="btn-secondary">View Case Studies</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:68px;width:auto;display:block;"/>
+      <p>Bespoke high-performance software engineering studio. Led by Abhayraj Singh. Operating globally from Mumbai, India.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services &amp; Stack</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="system-architect.html">⚡ System Architect</a>
+        <a href="engineering.html">Engineering Standards</a>
+        <a href="about.html">About Founder</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">7 Capabilities</div>
+      <div class="footer-nav">
+        <a href="web-applications.html">Web Applications</a>
+        <a href="ai-automation.html">AI &amp; Automation</a>
+        <a href="mobile-apps.html">Mobile Apps</a>
+        <a href="backend-apis.html">Backend &amp; APIs</a>
+        <a href="system-integrations.html">System Integrations</a>
+        <a href="architecture-scaling.html">Architecture &amp; Scaling</a>
+        <a href="feature-development.html">Feature Development</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Direct Contact</div>
+      <div class="footer-nav">
+        <a href="mailto:abhay@asvextech.com" style="color:var(--cyan);">abhay@asvextech.com</a>
+        <a href="tel:+919892469015">+91 98924 69015</a>
+        <a href="https://wa.me/919892469015" target="_blank" style="color:#25D366;">WhatsApp Direct</a>
+        <a href="contact.html">Schedule Audit</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 ASVEX Technologies. All Rights Reserved.</div>
+    <div>Founded by Abhayraj Singh · High-Performance Engineering</div>
+  </div>
+</footer>
+
+<div class="floating-dock">
+  <a href="system-architect.html" class="dock-architect">⚡ System Architect</a>
+  <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inspecting%20your%20code%20terminal." target="_blank" class="dock-wa">WhatsApp Direct</a>
+  <a href="contact.html" class="dock-audit">Book Audit</a>
+</div>
+
+<script>
+const SNIPPETS = {
+  shivalaya: `-- Shivalaya Resorts: PostgreSQL Concurrency-Safe Transaction Advisory Lock
+-- Guarantees atomic order processing during table surges without full-table locks
+
+CREATE OR REPLACE FUNCTION process_table_order_atomic(
+    p_table_id INT,
+    p_order_payload JSONB
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_lock_key BIGINT;
+    v_active_order_id UUID;
+    v_result JSONB;
+BEGIN
+    -- Derive deterministic 64-bit lock hash from table identifier
+    v_lock_key := ('x' || substr(md5('table_lock_' || p_table_id::text), 1, 16))::bit(64)::bigint;
+    
+    -- Acquire transaction-level advisory lock (automatically releases on COMMIT/ROLLBACK)
+    PERFORM pg_advisory_xact_lock(v_lock_key);
+    
+    -- Verify zero overlapping active orders within concurrent window
+    SELECT id INTO v_active_order_id
+    FROM hospitality_orders
+    WHERE table_id = p_table_id AND status IN ('PENDING_KITCHEN', 'PREPARING')
+    FOR UPDATE;
+    
+    -- Insert new validated order
+    INSERT INTO hospitality_orders (table_id, items, created_at, status)
+    VALUES (p_table_id, p_order_payload->'items', NOW(), 'PENDING_KITCHEN')
+    RETURNING jsonb_build_object('success', TRUE, 'order_id', id) INTO v_result;
+    
+    RETURN v_result;
+END;
+$$;`,
+
+  jio_faiss: `# Reliance Jio: FAISS Cosine Similarity Vector Retrieval with Anti-Hallucination Guardrail
+# 768-dim dense embeddings with strict cosine thresholding (>= 0.30)
+
+import numpy as np
+import faiss
+from typing import List, Dict, Optional
+
+class EnterpriseCiscoRAGRetriever:
+    def __init__(self, index_path: str, metadata_lookup: Dict[int, dict]):
+        self.index = faiss.read_index(index_path)
+        self.metadata = metadata_lookup
+        self.min_cosine_threshold = 0.30  # Rejects weak semantic noise
+
+    def search_verified_context(self, query_vector: np.ndarray, top_k: int = 4) -> List[Dict]:
+        query_vector = query_vector.astype('float32').reshape(1, -1)
+        faiss.normalize_L2(query_vector)
+        
+        # Exact inner product (cosine similarity on L2-normalized vectors)
+        distances, indices = self.index.search(query_vector, top_k)
+        
+        verified_results = []
+        for dist, idx in zip(distances[0], indices[0]):
+            if idx == -1 or dist < self.min_cosine_threshold:
+                continue  # Discard hallucination-prone low confidence chunks
+            
+            chunk_meta = self.metadata.get(int(idx), {})
+            verified_results.append({
+                "cisco_domain": chunk_meta.get("domain"),
+                "source_doc": chunk_meta.get("doc_title"),
+                "content": chunk_meta.get("text"),
+                "cosine_score": float(dist)
+            })
+        
+        return verified_results`,
+
+  octs_vpn: `# OCTS Marine: Zero-Trust Tailscale WireGuard VPN Network Compose
+# Complete internal container network mesh with zero exposed public ports
+
+version: '3.8'
+
+services:
+  tailscale-router:
+    image: tailscale/tailscale:latest
+    container_name: octs_vpn_mesh
+    hostname: octs-marine-core
+    environment:
+      - TS_AUTHKEY=\${TAILSCALE_AUTH_KEY}
+      - TS_ROUTES=10.0.0.0/24
+      - TS_USERSPACE=false
+    volumes:
+      - /var/lib/tailscale:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    restart: always
+
+  fastapi-backend:
+    build: ./backend
+    container_name: octs_api
+    network_mode: service:tailscale-router
+    depends_on:
+      - postgres-db
+    environment:
+      - DATABASE_URL=postgresql://octs_user:\${DB_PASS}@localhost:5432/octs_db`,
+
+  mcp_protocol: `# Reliance Jio: Model Context Protocol (MCP) Dynamic Runtime Tool Discovery
+# Decouples tool execution from hardcoded schemas via standard JSON-RPC
+
+import asyncio
+from mcp.client.session import ClientSession
+from mcp.client.stdio import StdioServerParameters, stdio_client
+
+async def discover_and_invoke_mcp_tools(server_script: str, tool_name: str, args: dict):
+    params = StdioServerParameters(command="python", args=[server_script])
+    async with stdio_client(params) as (read, write):
+        async with ClientSession(read, write) as session:
+            await session.initialize()
+            
+            # Runtime dynamic tool discovery without hardcoded client schemas
+            tools_list = await session.list_tools()
+            target_tool = next((t for t in tools_list.tools if t.name == tool_name), None)
+            
+            if target_tool:
+                result = await session.call_tool(tool_name, arguments=args)
+                return result.content
+    return None`
+};
+
+function switchSnippet(key, btn) {
+  document.querySelectorAll('.term-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('code-display').textContent = SNIPPETS[key] || '';
+}
+
+// Initialise
+switchSnippet('shivalaya', document.querySelector('.term-tab'));
+</script>
+<script src="assets/js/subpage-luxury.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Backend Engineering & APIs — ASVEX Technologies</title>
+<meta name="description" content="Microservices, REST APIs, GraphQL, queue systems, Redis caching, serverless functions. Python FastAPI & Node.js. Mumbai software engineer."/>
+<link rel="stylesheet" href="assets/css/subpage-luxury.css"/>
+</head>
+<body>
+
+
+<!-- ══ NAVIGATION ══ -->
+<nav>
+  <a href="index.html" class="nav-brand" aria-label="ASVEX Technologies">
+    <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" class="nav-logo-img"/>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="services.html" class="nav-link active">Services</a>
+    <a href="case-studies.html" class="nav-link">Case Studies</a>
+    <a href="system-architect.html" class="nav-link nav-link-cyan">⚡ System Architect</a>
+    <a href="engineering.html" class="nav-link">Engineering</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="nav-link desktop-only" style="color:#25D366;">WhatsApp Direct</a>
+    <a href="contact.html" class="nav-cta desktop-only">Start Project →</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MOBILE NAVIGATION DRAWER ══ -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+  <div class="drawer-header">
+    <a href="index.html" style="display:flex;align-items:center;">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:50px;width:auto;"/>
+    </a>
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+  </div>
+  <div class="drawer-nav">
+    <a href="index.html" class="drawer-link"><span class="drawer-num">[01]</span> Home</a>
+    <a href="services.html" class="drawer-link active"><span class="drawer-num">[02]</span> Services &amp; Capabilities</a>
+    <a href="case-studies.html" class="drawer-link"><span class="drawer-num">[03]</span> Case Studies &amp; Proof</a>
+    <a href="system-architect.html" class="drawer-link drawer-cyan"><span class="drawer-num">[04]</span> ⚡ System Architect</a>
+    <a href="engineering.html" class="drawer-link"><span class="drawer-num">[05]</span> Engineering Standards</a>
+    <a href="about.html" class="drawer-link"><span class="drawer-num">[06]</span> Founder &amp; Studio</a>
+    <a href="contact.html" class="drawer-link"><span class="drawer-num">[07]</span> Architecture Audit &amp; Contact</a>
+  </div>
+  <div class="drawer-footer">
+    <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;justify-content:center;">Book Architecture Audit →</a>
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="btn-wa" style="width:100%;text-align:center;justify-content:center;margin-top:10px;">WhatsApp Founder Direct</a>
+  </div>
+</aside>
+
+<section class="svc-hero">
+  <div class="svc-hero-bg">
+    <div class="svc-hero-glow" style="background:#0044CC;top:-80px;left:0;"></div>
+    <div class="svc-hero-glow" style="background:#00D4FF;bottom:-60px;right:5%;"></div>
+  </div>
+  <div class="svc-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="services.html">Services</a><span>/</span>Backend & APIs</div>
+    <div class="svc-eyebrow">Software Development · Backend</div>
+    <h1 class="svc-hero-h">Backend Systems<br><em>Built for Production</em></h1>
+    <p class="svc-hero-sub">The part your users never see — <strong>but feel every time they click</strong>. Microservices, REST APIs, queue systems, caching layers, and infrastructure that handles real production load without falling over.</p>
+    <div class="hero-tags"><span class="hero-tag">FastAPI</span><span class="hero-tag">Node.js</span><span class="hero-tag">Microservices</span><span class="hero-tag">Redis</span><span class="hero-tag">PostgreSQL</span><span class="hero-tag">Docker</span></div>
+    <div class="btn-row">
+      <a href="contact.html" class="btn-p">Discuss Your Backend →</a>
+      <a href="case-studies.html" class="btn-s">See Case Studies</a>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section class="sec sec-dark">
+  <div class="sec-hd rev">
+    <div class="sec-eyebrow">What We Build</div>
+    <h2 class="sec-h">Every Layer of<br><em>Your Backend</em></h2>
+  </div>
+  <div class="card-grid">
+    <div class="card rev d1"><div class="card-tag">[REST_GRAPHQL_API]</div><div class="card-title">REST & GraphQL APIs</div><p class="card-desc">Clean, versioned, documented APIs built with FastAPI (Python) or Express (Node.js). Auto-generated Swagger/OpenAPI docs, input validation, rate limiting, and CORS config out of the box.</p></div>
+    <div class="card rev d2"><div class="card-tag">[SVC_MICROSERVICES]</div><div class="card-title">Microservices Architecture</div><p class="card-desc">Break monoliths into independently deployable services. Each service owns its data, scales independently, and fails without taking down the whole system.</p></div>
+    <div class="card rev d3"><div class="card-tag">[ASYNC_JOB_QUEUE]</div><div class="card-title">Queue Systems & Background Jobs</div><p class="card-desc">BullMQ + Redis for job queues. Heavy tasks (email sending, PDF generation, image processing, webhook delivery) run in background workers so your API stays fast.</p></div>
+    <div class="card rev d1"><div class="card-tag">[POSTGRES_INDEXING]</div><div class="card-title">Database Design & Optimisation</div><p class="card-desc">Schema design, indexes, query optimisation, connection pooling. Slow queries identified and fixed. Database migrations managed safely with Alembic (zero downtime).</p></div>
+    <div class="card rev d2"><div class="card-tag">[MVP_FAST_LAUNCH]</div><div class="card-title">Caching Layers</div><p class="card-desc">Redis caching for repeated queries, session storage, and rate limit counters. The difference between a 2000ms response and a 20ms response on the same data.</p></div>
+    <div class="card rev d3"><div class="card-tag">[SAAS_MULTI_TENANT]</div><div class="card-title">Serverless Functions</div><p class="card-desc">AWS Lambda and Vercel Edge Functions for event-driven workloads — webhooks, scheduled jobs, image resizing on upload, email triggers. Pay per execution, scale to zero.</p></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section class="sec sec-alt">
+  <div class="sec-hd rev">
+    <div class="sec-eyebrow">Tech Stack</div>
+    <h2 class="sec-h">How We <em>Build It</em></h2>
+  </div>
+  <div class="rev" style="display:flex;flex-direction:column;gap:20px;">
+    <div class="stack-row"><span class="stack-lbl">Languages</span><div class="pills"><span class="pill">Python 3.11+</span><span class="pill">Node.js 20+</span><span class="pill">TypeScript</span><span class="pill">Bash scripting</span></div></div>
+    <div class="stack-row"><span class="stack-lbl">Frameworks</span><div class="pills"><span class="pill">FastAPI</span><span class="pill">Express.js</span><span class="pill">Pydantic v2</span><span class="pill">SQLAlchemy 2.0</span></div></div>
+    <div class="stack-row"><span class="stack-lbl">Databases</span><div class="pills"><span class="pill">PostgreSQL</span><span class="pill">MongoDB</span><span class="pill">Redis</span><span class="pill">SQLite (dev)</span><span class="pill">Alembic migrations</span></div></div>
+    <div class="stack-row"><span class="stack-lbl">Queues</span><div class="pills"><span class="pill">BullMQ</span><span class="pill">Redis Streams</span><span class="pill">Celery + Redis</span></div></div>
+    <div class="stack-row"><span class="stack-lbl">Auth</span><div class="pills"><span class="pill">JWT + refresh tokens</span><span class="pill">OAuth2 (Google)</span><span class="pill">API key management</span><span class="pill">bcrypt</span><span class="pill">passlib</span></div></div>
+    <div class="stack-row"><span class="stack-lbl">Infra</span><div class="pills"><span class="pill">Docker</span><span class="pill">Nginx (reverse proxy)</span><span class="pill">AWS EC2/ECS</span><span class="pill">Vercel Edge</span><span class="pill">GitHub Actions CI</span></div></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section class="sec sec-dark">
+  <div class="sec-hd center rev">
+    <div class="sec-eyebrow">FAQ</div>
+    <h2 class="sec-h" style="text-align:center;">Common <em>Questions</em></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item rev d1"><button class="faq-q">FastAPI vs Node.js — which do you recommend?<span class="faq-icon">+</span></button><div class="faq-a">FastAPI for data-heavy, AI-integrated, or Python-ecosystem projects. Node.js for real-time apps, chat systems, or when the frontend team already knows JS. Both produce production-grade APIs — the choice depends on your specific stack and team.</div></div>
+    <div class="faq-item rev d2"><button class="faq-q">Can you take over maintenance of an existing API?<span class="faq-icon">+</span></button><div class="faq-a">Yes. Share the codebase and I'll do a free technical review. Most existing APIs have identifiable performance bottlenecks within an hour of reading the code. Monthly retainer options available for ongoing maintenance.</div></div>
+    <div class="faq-item rev d3"><button class="faq-q">Do you write tests?<span class="faq-icon">+</span></button><div class="faq-a">Yes — unit tests for business logic and integration tests for critical API endpoints using pytest (Python) or Jest (Node.js). The level of test coverage is scoped per project. Full TDD is available for projects that require it.</div></div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <h2 class="cta-strip-h rev">Need a backend that<br><em>actually handles the load?</em></h2>
+  <p class="rev">Let's talk about your architecture. Free 30-minute technical review of your current setup or new project requirements.</p>
+  <div class="btn-row rev">
+    <a href="contact.html" class="btn-p">Start the Conversation →</a>
+    <a href="index.html#pricing" class="btn-s">View Pricing</a>
+  </div>
+</section>
+
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:68px;width:auto;display:block;"/>
+      <p>Bespoke high-performance software engineering studio. Led by Abhayraj Singh. Operating globally from Mumbai, India.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services &amp; Stack</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="system-architect.html">⚡ System Architect</a>
+        <a href="engineering.html">Engineering Standards</a>
+        <a href="about.html">About Founder</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">7 Capabilities</div>
+      <div class="footer-nav">
+        <a href="web-applications.html">Web Applications</a>
+        <a href="ai-automation.html">AI &amp; Automation</a>
+        <a href="mobile-apps.html">Mobile Apps</a>
+        <a href="backend-apis.html">Backend &amp; APIs</a>
+        <a href="system-integrations.html">System Integrations</a>
+        <a href="architecture-scaling.html">Architecture &amp; Scaling</a>
+        <a href="feature-development.html">Feature Development</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Direct Contact</div>
+      <div class="footer-nav">
+        <a href="mailto:abhay@asvextech.com" style="color:var(--cyan);">abhay@asvextech.com</a>
+        <a href="tel:+919892469015">+91 98924 69015</a>
+        <a href="https://wa.me/919892469015" target="_blank" style="color:#25D366;">WhatsApp Direct</a>
+        <a href="contact.html">Schedule Audit</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 ASVEX Technologies. All Rights Reserved.</div>
+    <div>Founded by Abhayraj Singh · High-Performance Engineering</div>
+  </div>
+</footer>
+
+<div class="floating-dock">
+  <a href="system-architect.html" class="dock-architect">⚡ System Architect</a>
+  <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20your%20services." target="_blank" class="dock-wa">WhatsApp Direct</a>
+  <a href="contact.html" class="dock-audit">Book Audit</a>
+</div>
+<script src="assets/js/subpage-luxury.js"></script>
+</body>
+</html>

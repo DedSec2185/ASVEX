@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Architecture & Scalability Upgrades — ASVEX Technologies</title>
+<meta name="description" content="Migrate monoliths to microservices. Add Redis caching, Docker, AWS ECS, CDN, load balancing. Scale from 100 to 100,000 users. Mumbai tech consultant."/>
+<link rel="stylesheet" href="assets/css/subpage-luxury.css"/>
+</head>
+<body>
+
+
+<!-- ══ NAVIGATION ══ -->
+<nav>
+  <a href="index.html" class="nav-brand" aria-label="ASVEX Technologies">
+    <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" class="nav-logo-img"/>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="services.html" class="nav-link active">Services</a>
+    <a href="case-studies.html" class="nav-link">Case Studies</a>
+    <a href="system-architect.html" class="nav-link nav-link-cyan">⚡ System Architect</a>
+    <a href="engineering.html" class="nav-link">Engineering</a>
+    <a href="about.html" class="nav-link">About</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="nav-link desktop-only" style="color:#25D366;">WhatsApp Direct</a>
+    <a href="contact.html" class="nav-cta desktop-only">Start Project →</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+      <span class="ham-bar"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ══ MOBILE NAVIGATION DRAWER ══ -->
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="mobile-drawer" id="mobile-drawer" aria-label="Mobile Navigation">
+  <div class="drawer-header">
+    <a href="index.html" style="display:flex;align-items:center;">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:50px;width:auto;"/>
+    </a>
+    <button class="drawer-close" id="drawer-close" aria-label="Close menu">&times;</button>
+  </div>
+  <div class="drawer-nav">
+    <a href="index.html" class="drawer-link"><span class="drawer-num">[01]</span> Home</a>
+    <a href="services.html" class="drawer-link active"><span class="drawer-num">[02]</span> Services &amp; Capabilities</a>
+    <a href="case-studies.html" class="drawer-link"><span class="drawer-num">[03]</span> Case Studies &amp; Proof</a>
+    <a href="system-architect.html" class="drawer-link drawer-cyan"><span class="drawer-num">[04]</span> ⚡ System Architect</a>
+    <a href="engineering.html" class="drawer-link"><span class="drawer-num">[05]</span> Engineering Standards</a>
+    <a href="about.html" class="drawer-link"><span class="drawer-num">[06]</span> Founder &amp; Studio</a>
+    <a href="contact.html" class="drawer-link"><span class="drawer-num">[07]</span> Architecture Audit &amp; Contact</a>
+  </div>
+  <div class="drawer-footer">
+    <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;justify-content:center;">Book Architecture Audit →</a>
+    <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20a%20project." target="_blank" class="btn-wa" style="width:100%;text-align:center;justify-content:center;margin-top:10px;">WhatsApp Founder Direct</a>
+  </div>
+</aside>
+
+<section class="svc-hero">
+  <div class="svc-hero-bg">
+    <div class="svc-hero-glow" style="background:#DC2626;top:-60px;left:5%;"></div>
+    <div class="svc-hero-glow" style="background:var(--blue);bottom:-80px;right:10%;"></div>
+  </div>
+  <div class="svc-hero-content">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="services.html">Services</a><span>/</span>Architecture</div>
+    <div class="svc-eyebrow">Software Development · Scaling</div>
+    <h1 class="svc-hero-h">From 100 Users<br><em>to 100,000</em></h1>
+    <p class="svc-hero-sub">Your product works. Now it needs to scale. We diagnose bottlenecks, redesign the parts that don't scale, and migrate you to <strong>infrastructure that grows with your business — without a full rewrite</strong>.</p>
+    <div class="hero-tags"><span class="hero-tag">Docker</span><span class="hero-tag">AWS ECS</span><span class="hero-tag">Redis Caching</span><span class="hero-tag">Load Balancing</span><span class="hero-tag">CDN</span><span class="hero-tag">Database Optimisation</span></div>
+    <div class="btn-row">
+      <a href="contact.html" class="btn-p">Get Architecture Review →</a>
+      <a href="case-studies.html" class="btn-s">Case Studies</a>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section class="sec sec-dark">
+  <div class="sec-hd rev">
+    <div class="sec-eyebrow">What We Fix</div>
+    <h2 class="sec-h">The Scaling Problems<br><em>We Solve</em></h2>
+  </div>
+  <div class="card-grid">
+    <div class="card rev d1"><div class="card-tag">[SQL_QUERY_OPTIMIZE]</div><div class="card-title">Slow Database Queries</div><p class="card-desc">Missing indexes, N+1 query problems, unoptimised joins, full table scans. We identify every slow query with EXPLAIN ANALYZE and fix them systematically. 10× speed improvement is common.</p></div>
+    <div class="card rev d2"><div class="card-tag">[DECOUPLED_SERVICES]</div><div class="card-title">Monolith → Microservices</div><p class="card-desc">Split a tightly coupled monolith into independently deployable services — gradually, without rewriting from scratch. Each service scales independently and failures stay isolated.</p></div>
+    <div class="card rev d3"><div class="card-tag">[REDIS_CACHE_LAYER]</div><div class="card-title">Adding Redis Caching</div><p class="card-desc">Cache frequently-read data, database query results, session tokens, and rate limit counters. The right caching strategy can cut database load by 80% and response times by 10×.</p></div>
+    <div class="card rev d1"><div class="card-tag">[DOCKER_CONTAINER]</div><div class="card-title">Containerisation</div><p class="card-desc">Move from bare-metal or shared hosting to Docker containers. Environment consistency, zero-downtime deployments, horizontal scaling, and infrastructure-as-code.</p></div>
+    <div class="card rev d2"><div class="card-tag">[LOAD_BALANCER_CDN]</div><div class="card-title">Load Balancing & CDN</div><p class="card-desc">Nginx load balancing across multiple app instances. CloudFront or Cloudflare CDN for static assets. The combination that handles 10× traffic spikes without hardware upgrades.</p></div>
+    <div class="card rev d3"><div class="card-tag">[SENTRY_OBSERVABILITY]</div><div class="card-title">Observability & Monitoring</div><p class="card-desc">If you can't see it, you can't fix it. Structured logging, error tracking (Sentry), uptime monitoring, and performance dashboards so problems are caught before users report them.</p></div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<section class="sec sec-alt">
+  <div class="sec-hd center rev">
+    <div class="sec-eyebrow">FAQ</div>
+    <h2 class="sec-h" style="text-align:center;">Common <em>Questions</em></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item rev d1"><button class="faq-q">Do we need to rewrite everything to scale?<span class="faq-icon">+</span></button><div class="faq-a">Almost never. 80% of scaling problems come from slow database queries, missing caching, and lack of connection pooling. These are fixable without touching your application architecture. A full rewrite is a last resort, not a first move.</div></div>
+    <div class="faq-item rev d2"><button class="faq-q">How do you do this without downtime?<span class="faq-icon">+</span></button><div class="faq-a">Database migrations using Alembic with backwards-compatible changes. Blue-green deployments for infrastructure changes. Feature flags to roll out changes incrementally. Most migrations are done with zero planned downtime.</div></div>
+    <div class="faq-item rev d3"><button class="faq-q">What does an architecture review involve?<span class="faq-icon">+</span></button><div class="faq-a">Share your codebase and I'll spend 2–3 hours reviewing the database schema, query patterns, API design, and infrastructure setup. You get a written report with prioritised recommendations and estimated effort for each fix. This is the most efficient ₹25,000 you'll spend on your product.</div></div>
+  </div>
+</section>
+
+<section class="cta-strip">
+  <h2 class="cta-strip-h rev">Is your system<br><em>about to hit a wall?</em></h2>
+  <p class="rev">Let's do a free 30-minute architecture review. Share what you're running — I'll tell you where the bottlenecks are before they become outages.</p>
+  <div class="btn-row rev">
+    <a href="contact.html" class="btn-p">Book Architecture Review →</a>
+    <a href="index.html#pricing" class="btn-s">Pricing</a>
+  </div>
+</section>
+
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/images/asvex-mark.svg" alt="ASVEX Technologies" style="height:68px;width:auto;display:block;"/>
+      <p>Bespoke high-performance software engineering studio. Led by Abhayraj Singh. Operating globally from Mumbai, India.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Navigation</div>
+      <div class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services &amp; Stack</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="system-architect.html">⚡ System Architect</a>
+        <a href="engineering.html">Engineering Standards</a>
+        <a href="about.html">About Founder</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">7 Capabilities</div>
+      <div class="footer-nav">
+        <a href="web-applications.html">Web Applications</a>
+        <a href="ai-automation.html">AI &amp; Automation</a>
+        <a href="mobile-apps.html">Mobile Apps</a>
+        <a href="backend-apis.html">Backend &amp; APIs</a>
+        <a href="system-integrations.html">System Integrations</a>
+        <a href="architecture-scaling.html">Architecture &amp; Scaling</a>
+        <a href="feature-development.html">Feature Development</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Direct Contact</div>
+      <div class="footer-nav">
+        <a href="mailto:abhay@asvextech.com" style="color:var(--cyan);">abhay@asvextech.com</a>
+        <a href="tel:+919892469015">+91 98924 69015</a>
+        <a href="https://wa.me/919892469015" target="_blank" style="color:#25D366;">WhatsApp Direct</a>
+        <a href="contact.html">Schedule Audit</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 ASVEX Technologies. All Rights Reserved.</div>
+    <div>Founded by Abhayraj Singh · High-Performance Engineering</div>
+  </div>
+</footer>
+
+<div class="floating-dock">
+  <a href="system-architect.html" class="dock-architect">⚡ System Architect</a>
+  <a href="https://wa.me/919892469015?text=Hi%20Abhayraj,%20I'm%20inquiring%20about%20your%20services." target="_blank" class="dock-wa">WhatsApp Direct</a>
+  <a href="contact.html" class="dock-audit">Book Audit</a>
+</div>
+<script src="assets/js/subpage-luxury.js"></script>
+</body>
+</html>

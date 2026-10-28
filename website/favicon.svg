@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 166" width="32" height="32">
+  <defs>
+    <linearGradient id="fav_aGrad" x1="0%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="45%" stop-color="#0077FF"/>
+      <stop offset="100%" stop-color="#051030"/>
+    </linearGradient>
+    <linearGradient id="fav_cbGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0044CC"/>
+      <stop offset="50%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#0044CC"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="10" width="148" height="148" rx="20" fill="#030810" stroke="#00CFFF" stroke-width="2"/>
+  <polygon points="33,136 53,136 77,54 68,26 59,54" fill="url(#fav_aGrad)"/>
+  <polygon points="124,136 104,136 80,54 68,26 77,54" fill="url(#fav_aGrad)"/>
+  <rect x="52" y="86" width="54" height="11" rx="3" fill="url(#fav_cbGrad)"/>
+  <circle cx="52" cy="91" r="5" fill="#00CFFF"/>
+  <circle cx="106" cy="91" r="5" fill="#00CFFF"/>
+  <polygon points="68,12 77,26 68,34 59,26" fill="#00E5FF"/>
+</svg>
